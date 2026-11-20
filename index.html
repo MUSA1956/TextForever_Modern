@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TextForever Modern · 小说 TXT 合并</title>
+<link rel="stylesheet" href="app/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">TF</span>
+    <div class="brand-text">
+      <h1>TextForever Modern</h1>
+      <p class="sub">小说章节 TXT 合并 · 纯本地运行，文件不出这台电脑</p>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <button id="btnPickDir" class="primary">选择文件夹</button>
+    <button id="btnPickFiles">选择文件</button>
+    <button id="btnClear" class="ghost">清空</button>
+  </div>
+</header>
+
+<main>
+
+  <section class="panel dropzone" id="dropzone">
+    <div class="dropzone-inner">
+      <strong>把章节文件夹或 txt 文件拖到这里</strong>
+      <span>也可以用右上角按钮选；子文件夹会自动递归</span>
+    </div>
+    <input type="file" id="fileInput" accept=".txt,text/plain" multiple hidden>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>文件列表 <span id="fileCount" class="badge">0</span></h2>
+      <div class="controls">
+        <label>排序
+          <select id="sortRule">
+            <option value="natural">章节自然序</option>
+            <option value="pinyin">拼音</option>
+            <option value="name">文件名</option>
+          </select>
+        </label>
+        <label class="check"><input type="checkbox" id="sortDesc"> 倒序</label>
+        <button id="btnResort" class="ghost">按规则重排</button>
+      </div>
+    </div>
+    <p class="status" id="status"></p>
+    <div class="table-wrap">
+      <table id="fileTable">
+        <thead>
+          <tr>
+            <th class="col-idx">#</th>
+            <th class="col-name">文件名（章节名）</th>
+            <th class="col-chapter">识别章节号</th>
+            <th class="col-enc">编码</th>
+            <th class="col-size">大小</th>
+            <th class="col-ops">调整</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p class="empty" id="emptyHint">还没有文件。选一个文件夹，或者把它们拖进来。</p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><h2>输出设置</h2></div>
+    <div class="options">
+      <label class="check"><input type="checkbox" id="addTitle" checked> 在每章开头添加文件名作为标题</label>
+      <label class="check"><input type="checkbox" id="dedupeTitle" checked> 正文首行与文件名重复时去掉一行</label>
+      <label class="check"><input type="checkbox" id="blankLine" checked> 章节之间空一行</label>
+      <label>导出编码
+        <select id="outEncoding">
+          <option value="utf-8">UTF-8（无 BOM）</option>
+          <option value="utf-8-bom">UTF-8（带 BOM）</option>
+          <option value="gb18030">GB18030（兼容老软件）</option>
+        </select>
+      </label>
+      <label>换行
+        <select id="lineEnding">
+          <option value="crlf">CRLF（Windows）</option>
+          <option value="lf">LF（Mac / Linux）</option>
+        </select>
+      </label>
+      <button id="btnExport" class="primary">合并并导出</button>
+    </div>
+    <p class="hint">导出文件名默认 <code>合并_年月日_时分.txt</code>，保存时可以改。</p>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>合并预览</h2>
+      <span id="stats" class="stats"></span>
+    </div>
+    <pre id="preview" class="preview">（还没有可预览的内容）</pre>
+  </section>
+
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<!-- 全部为经典脚本（不是 ES Module），这样双击 index.html 也能在 file:// 下直接运行 -->
+<script src="app/encoding.js"></script>
+<script src="app/sorter.js"></script>
+<script src="app/files.js"></script>
+<script src="app/merger.js"></script>
+<script src="app/ui.js"></script>
+<script src="app/main.js"></script>
+</body>
+</html>
